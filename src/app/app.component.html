@@ -1,0 +1,20 @@
+<app-header
+  [isUserLoggedIn]="isUserLoggedIn$ | async"
+>
+</app-header>
+<router-outlet></router-outlet>
+
+<div *ngIf="getNumbers$ | async as numbers">
+  <div *ngFor="let number of numbers">
+    {{number}}
+  </div>
+</div>
+
+<input type="text" name="searchMessages" #searchMessages>
+
+
+<div *ngIf="messages$ | async as messages">
+  <div *ngFor="let message of messages">
+    {{message.text}}
+  </div>
+</div>

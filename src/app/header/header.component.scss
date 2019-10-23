@@ -1,0 +1,19 @@
+.wrapperOnlineStatus {
+  display: flex;
+  align-items: center;
+
+  .userOnlineStatus {
+    width: 10px;
+    height: 10px;
+    display: block;
+    border: 1px solid;
+    border-radius: 50%;
+    background: #989898;
+    margin: 10px;
+
+    &.online {
+      background: #00ea00;
+    }
+  }
+
+}

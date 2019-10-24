@@ -1,1 +1,14 @@
-/* You can add global styles to this file, and also import other style files */
+html {
+  height: 100%;
+  font-family: 'Monospaced';
+  display: grid;
+  align-items: center;
+  justify-items: center;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+}
+

@@ -13,10 +13,12 @@ import {map, switchMap} from 'rxjs/operators';
 })
 export class AppComponent implements OnInit {
   @ViewChild('searchMessages', {static: true}) searchMessages: ElementRef;
+  @ViewChild('stylesToggle', {static: true}) stylesToggle: ElementRef;
 
   isUserLoggedIn$: Observable<boolean>;
   getNumbers$: Observable<number[]>;
   messages$: Observable<Message[]>;
+  stylesToggle$: Observable<boolean>;
 
   constructor(
     private readonly networkStatusService: NetworkStatusService,
@@ -31,6 +33,10 @@ export class AppComponent implements OnInit {
     this.messages$ = fromEvent(this.searchMessages.nativeElement, 'input').pipe(
       switchMap((event: any) => this.searchMessageService.searchMessages(event.target.value)),
       map(data => data)
+    );
+
+    this.stylesToggle$ = fromEvent(this.stylesToggle.nativeElement, 'input').pipe(
+      map(event => event.target.checked)
     );
   }
 }

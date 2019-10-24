@@ -1,10 +1,16 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {fromEvent, Observable} from 'rxjs';
+import {select, Store} from '@ngrx/store';
 import {NetworkStatusService} from './services/network-status.service';
 import {NumberService} from './services/number.service';
 import {SearchMessageService} from './services/search-message.service';
 import {Message} from './interfaces/message.interface';
 import {map, switchMap} from 'rxjs/operators';
+import {Conversation} from './interfaces/conversation.interface';
+import {State} from './@store/reducers';
+import {conversationSelector} from './@store/conversation/conversation.selector';
+
+import * as conversationActions from './@store/conversation/conversation.actions';
 
 @Component({
   selector: 'app-root',
@@ -19,11 +25,13 @@ export class AppComponent implements OnInit {
   getNumbers$: Observable<number[]>;
   messages$: Observable<Message[]>;
   stylesToggle$: Observable<boolean>;
+  conversation$: Observable<Conversation> = this.store$.pipe(select(conversationSelector));
 
   constructor(
     private readonly networkStatusService: NetworkStatusService,
     private readonly numberService: NumberService,
     private readonly searchMessageService: SearchMessageService,
+    private readonly store$: Store<State>,
   ) {
     this.isUserLoggedIn$ = this.networkStatusService.getOnlineStatus();
     this.getNumbers$ = this.numberService.getListNumber();
@@ -36,7 +44,9 @@ export class AppComponent implements OnInit {
     );
 
     this.stylesToggle$ = fromEvent(this.stylesToggle.nativeElement, 'input').pipe(
-      map(event => event.target.checked)
+      map((event: any) => event.target.checked)
     );
+
+    this.store$.dispatch(conversationActions.loadConversation());
   }
 }
